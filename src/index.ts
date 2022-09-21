@@ -1,11 +1,19 @@
-import express, {Request, Response} from 'express'
-const app = express()
-const port = 5001
+import express from 'express';
+import bodyParser from 'body-parser';
+import {videosRouter} from "./routs/videos-router";
+import {testingRouter} from "./routs/testing-alll-data";
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!')
-})
+
+const app = express();
+const port = process.env.PORT || 5001;
+
+const jsonParserMiddleware = bodyParser.json();
+
+app.use(jsonParserMiddleware);
+
+app.use('/videos', videosRouter);
+app.use('/testing', testingRouter);
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on port ${port}`);
 })
